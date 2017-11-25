@@ -1,24 +1,24 @@
 #include "node.h"
 
-Node::Node(NodeData *data)
+Node::Node(NodeData data)
 {
   _data = data;
 }
 
-Node::Node(int idata)
-{
-  Node(  new NodeData( idata ) );
-}
+//Node::Node(int idata)
+//{
+//  Node( NodeData( idata ) );
+//}
 
-Node::Node(float fdata)
-{
-  Node( new NodeData( fdata ) );
-}
+//Node::Node(float fdata)
+//{
+//  Node( NodeData( fdata ) );
+//}
 
-Node::Node(char *cdata)
-{
-  Node( new NodeData( cdata ) );
-}
+//Node::Node(char *cdata)
+//{
+//  Node( NodeData( cdata ) );
+//}
 
 Node* Node::addChild(Node *node)
 {
@@ -39,9 +39,31 @@ void Node::print(int deep)
   }
 }
 
-DataVariant *Node::NodeData::data() const
+//Node::NodeData::NodeData(DataVariant *data, DataType dataType)
+//{
+//   if(dataType == DataType::floating)
+//      _data = data->fdata();
+//    else if(dataType == DataType::integer)
+//      _data = data->idata();
+//    else if(dataType == DataType::chr)
+//      _data = data->cdata();
+
+//    _type = dataType;
+//}
+
+int Node::NodeData::idata() const
 {
-  return _data;
+  return _idata;
+}
+
+float Node::NodeData::fdata() const
+{
+  return _fdata;
+}
+
+char *Node::NodeData::cdata() const
+{
+  return _cdata;
 }
 
 DataType Node::NodeData::type() const
@@ -49,64 +71,35 @@ DataType Node::NodeData::type() const
   return _type;
 }
 
-Node::NodeData::NodeData(DataVariant *data, DataType dataType)
+Node::NodeData::NodeData(int idata)
 {
-   if(dataType == DataType::floating)
-      _data = new DataVariant(data->fdata());
-    else if(dataType == DataType::integer)
-      _data = new DataVariant(data->idata());
-    else if(dataType == DataType::chr)
-      _data = new DataVariant(data->cdata());
-
-    _type = dataType;
-}
-
-Node::NodeData::NodeData(const int idata)
-{
-  NodeData(new DataVariant( idata ), DataType::integer);
+  std::cout << idata << "[param]" << std::endl;
+  _idata = idata;
+  _type = DataType::integer;
 }
 
 Node::NodeData::NodeData(float fdata)
 {
-  NodeData(new DataVariant( fdata ), DataType::floating);
+  _fdata = fdata;
+  _type = DataType::floating;
 }
 
 Node::NodeData::NodeData(char *cdata)
 {
-  NodeData(new DataVariant( cdata ), DataType::chr);
+  _cdata = cdata;
+  _type = DataType::chr;
 }
 
 
-std::ostream &operator<<(std::ostream &out, const Node::NodeData *data)
+std::ostream &operator<<(std::ostream &out, const Node::NodeData &data)
 {
-  if(data->type() == DataType::floating)
-      out << data->data()->fdata();
-   else if(data->type() == DataType::integer)
-      out << data->data()->idata();
-   else if(data->type() == DataType::chr)
-      out << data->data()->cdata();
+  if(data.type() == DataType::floating)
+      out << data.fdata();
+   else if(data.type() == DataType::integer)
+      out << data.idata();
+   else if(data.type() == DataType::chr)
+      out << data.cdata();
 
 // out << data._data._idata;
   return out;
-}
-
-
-
-
-
-
-
-void DataVariant::setFdata(float fdata)
-{
-  _fdata = fdata;
-}
-
-void DataVariant::setCdata(char *cdata)
-{
-  _cdata = cdata;
-}
-
-void DataVariant::setIdata(int idata)
-{
-  _idata = idata;
 }
