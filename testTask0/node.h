@@ -15,9 +15,11 @@ class Node
 public:
   class NodeData
   {
-    int _idata = 0;
-    float _fdata = 0;
-    const char *_cdata = nullptr;
+    union{
+      int _idata;
+      float _fdata;
+      const char *_cdata = nullptr;
+    };
     DataType _type = DataType::integer;
 
   public:
