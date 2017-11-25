@@ -17,19 +17,19 @@ public:
   {
     int _idata = 0;
     float _fdata = 0;
-    char *_cdata = nullptr;
+    const char *_cdata = nullptr;
     DataType _type = DataType::integer;
 
   public:
      NodeData(int idata = 0 );
      NodeData(float fdata );
-     NodeData(char *cdata );
+     NodeData(const char *cdata );
 
     friend std::ostream& operator<<(std::ostream& out, const NodeData& data);
 
     int idata() const;
     float fdata() const;
-    char *cdata() const;
+    const char *cdata() const;
     DataType type() const;
   };
 private:

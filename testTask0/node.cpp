@@ -61,7 +61,7 @@ float Node::NodeData::fdata() const
   return _fdata;
 }
 
-char *Node::NodeData::cdata() const
+const char *Node::NodeData::cdata() const
 {
   return _cdata;
 }
@@ -73,7 +73,6 @@ DataType Node::NodeData::type() const
 
 Node::NodeData::NodeData(int idata)
 {
-  std::cout << idata << "[param]" << std::endl;
   _idata = idata;
   _type = DataType::integer;
 }
@@ -84,7 +83,7 @@ Node::NodeData::NodeData(float fdata)
   _type = DataType::floating;
 }
 
-Node::NodeData::NodeData(char *cdata)
+Node::NodeData::NodeData(const char *cdata)
 {
   _cdata = cdata;
   _type = DataType::chr;
