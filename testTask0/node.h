@@ -4,10 +4,10 @@
 #include <vector>
 #include <iostream>
 
-enum class DataType{
+enum class  DataType{
   integer = 0,
   floating,
-  str
+  chr
 };
 
 union DataVariant{
@@ -15,7 +15,7 @@ union DataVariant{
   float _fdata;
   char *_cdata;
 
-  DataVariant( int idata ){
+  DataVariant(int idata ){
     _idata = idata;
   }
   DataVariant(float fdata ){
@@ -31,14 +31,14 @@ class Node
 public:
   class NodeData
   {
-    DataVariant _data;
+    int _data;
     DataType _type ;
 
   public:
-    NodeData( DataVariant *data, DataType dataType = DataType::integer);
-    NodeData(const int idata = 0 );
-    NodeData(const float data );
-    NodeData(const char *cdata );
+//    NodeData(DataVariant *data, DataType dataType = DataType::integer);
+    NodeData(int idata = 0 );
+//    NodeData(float fdata = 0 );
+//    NodeData(char *cdata = nullptr);
 
     friend std::ostream& operator<<(std::ostream& out, const NodeData& data);
   };
