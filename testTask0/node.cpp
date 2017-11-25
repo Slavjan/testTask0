@@ -39,6 +39,25 @@ void Node::print(int deep)
   }
 }
 
+std::string Node::jsonify()
+{
+  std::stringstream json;
+
+  json << "{ \"value\": " << _data << ", \"children\":[";
+
+  for( auto child : _children ){
+    json << child->jsonify();
+
+    if( child != *(_children.end()-1) ){
+      json << ",";
+    }
+  }
+
+  json << "]}";
+
+  return json.str();
+}
+
 //Node::NodeData::NodeData(DataVariant *data, DataType dataType)
 //{
 //   if(dataType == DataType::floating)
@@ -97,7 +116,7 @@ std::ostream &operator<<(std::ostream &out, const Node::NodeData &data)
    else if(data.type() == DataType::integer)
       out << data.idata();
    else if(data.type() == DataType::chr)
-      out << data.cdata();
+      out <<"\"" << data.cdata() << "\"";
 
 // out << data._data._idata;
   return out;

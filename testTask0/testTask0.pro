@@ -5,9 +5,10 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    tree.cpp \
-    node.cpp
+    node.cpp \
+    serializer.cpp
 
 HEADERS += \
-    tree.h \
-    node.h
+    node.h \
+    serializer.h \
+    json.hpp

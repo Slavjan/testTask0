@@ -1,8 +1,10 @@
 #include <iostream>
+#include <fstream>
 #include "node.h"
+#include "json.hpp"
 
 using namespace std;
-
+using json = nlohmann::json;
 
 int main()
 {
@@ -15,7 +17,12 @@ int main()
   tree->addChild(new Node("rtrt"));
   tree->addChild(new Node(1.4f));
 
-  tree->print();
+//  tree->print();
+
+  auto j = json::parse( tree->jsonify() );
+
+  std::cout << j.dump(2) << std::endl;
+
 
   return 0;
 }

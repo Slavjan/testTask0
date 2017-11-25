@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <iostream>
+#include <sstream>
 
 enum class  DataType{
   integer = 0,
@@ -17,7 +18,7 @@ public:
   {
     union{
       int _idata;
-      float _fdata;
+      double _fdata;
       const char *_cdata = nullptr;
     };
     DataType _type = DataType::integer;
@@ -47,6 +48,7 @@ public:
   Node *addChild(Node *node);
 
   void print(int deep = 0);
+  std::string jsonify();
 };
 
 std::ostream& operator<<(std::ostream& out, const Node::NodeData& data);
