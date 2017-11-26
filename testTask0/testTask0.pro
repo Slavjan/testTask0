@@ -6,11 +6,9 @@ CONFIG -= qt
 
 SOURCES += main.cpp \
     node.cpp \
-    serializer.cpp \
-    parametrparser.cpp
+    serializer.cpp
 
 HEADERS += \
     node.h \
     serializer.h \
-    json.hpp \
-    parametrparser.h
+    json.hpp

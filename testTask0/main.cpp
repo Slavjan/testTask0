@@ -1,30 +1,37 @@
 #include <string>
 
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "node.h"
 #include "serializer.h"
-#include "parametrparser.h"
 
 int main(int argc, char **argv)
 {
-  ParametrParser args(argc, argv);
   Node *tree = nullptr;
 
-  args.setShortOption("i", [&](std::string path){
-    tree = Serializer::deserialize( path.c_str() );
-  });
-  args.setShortOption("o", [&](std::string path){
+  const char *opts = "i:o:";
 
-    if(tree == nullptr){
-      std::cerr << " nothing to serialize !" << std::endl;
+  int opt;
+  while((opt = getopt(argc, argv, opts)) != -1) {
+    switch(opt){
+    case 'i':
+      tree = Serializer::deserialize( optarg );
+      break;
+
+    case 'o':
+      if( !tree ){
+        std::cerr << " nothing to serialize! " << std::endl;
+        return 2;
+      }
+      Serializer::serialize( tree, optarg );
+      break;
+
+    default:
+      std::cerr << " unexpected argument " << std::endl;
       return 1;
     }
-    Serializer::serialize( tree, path.c_str() );
-  });
-
-  try{
-    args.exec();
-  }catch(ParametrParser::UnknownOption e){
-    std::cerr << "Unknown option: " << e.optionName << std::endl;
   }
 
   tree->print();
