@@ -5,21 +5,6 @@ Node::Node(NodeData data)
   _data = data;
 }
 
-//Node::Node(int idata)
-//{
-//  Node( NodeData( idata ) );
-//}
-
-//Node::Node(float fdata)
-//{
-//  Node( NodeData( fdata ) );
-//}
-
-//Node::Node(char *cdata)
-//{
-//  Node( NodeData( cdata ) );
-//}
-
 Node* Node::addChild(Node *node)
 {
   _children.push_back(node);
@@ -75,12 +60,12 @@ int Node::NodeData::idata() const
   return _idata;
 }
 
-float Node::NodeData::fdata() const
+double Node::NodeData::fdata() const
 {
   return _fdata;
 }
 
-const char *Node::NodeData::cdata() const
+std::string Node::NodeData::cdata() const
 {
   return _cdata;
 }
@@ -96,18 +81,23 @@ Node::NodeData::NodeData(int idata)
   _type = DataType::integer;
 }
 
-Node::NodeData::NodeData(float fdata)
+Node::NodeData::NodeData(double fdata)
 {
   _fdata = fdata;
   _type = DataType::floating;
 }
 
+Node::NodeData::NodeData(std::string cdata)
+{
+  _cdata = cdata;
+  _type = DataType::string;
+}
+
 Node::NodeData::NodeData(const char *cdata)
 {
   _cdata = cdata;
-  _type = DataType::chr;
+  _type = DataType::string;
 }
-
 
 std::ostream &operator<<(std::ostream &out, const Node::NodeData &data)
 {
@@ -115,7 +105,7 @@ std::ostream &operator<<(std::ostream &out, const Node::NodeData &data)
       out << data.fdata();
    else if(data.type() == DataType::integer)
       out << data.idata();
-   else if(data.type() == DataType::chr)
+   else if(data.type() == DataType::string)
       out <<"\"" << data.cdata() << "\"";
 
 // out << data._data._idata;

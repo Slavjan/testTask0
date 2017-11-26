@@ -8,7 +8,7 @@
 enum class  DataType{
   integer = 0,
   floating,
-  chr
+  string
 };
 
 class Node
@@ -16,23 +16,23 @@ class Node
 public:
   class NodeData
   {
-    union{
-      int _idata;
-      double _fdata;
-      const char *_cdata = nullptr;
-    };
+    int _idata;
+    double _fdata;
+    std::string _cdata;
+
     DataType _type = DataType::integer;
 
   public:
      NodeData(int idata = 0 );
-     NodeData(float fdata );
-     NodeData(const char *cdata );
+     NodeData(double fdata );
+     NodeData(std::string cdata );
+     NodeData(const char* cdata );
 
     friend std::ostream& operator<<(std::ostream& out, const NodeData& data);
 
     int idata() const;
-    float fdata() const;
-    const char *cdata() const;
+    double fdata() const;
+    std::string cdata() const;
     DataType type() const;
   };
 private:
@@ -40,10 +40,7 @@ private:
   std::vector<Node*> _children;
 
 public:
-  Node( NodeData data );/*
-  Node( int idata );
-  Node(float fdata );
-  Node( char *idata );*/
+  Node( NodeData data );
 
   Node *addChild(Node *node);
 

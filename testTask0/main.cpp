@@ -1,28 +1,32 @@
-#include <iostream>
-#include <fstream>
+#include <string>
+
 #include "node.h"
-#include "json.hpp"
+#include "serializer.h"
+#include "parametrparser.h"
 
-using namespace std;
-using json = nlohmann::json;
-
-int main()
+int main(int argc, char **argv)
 {
-  Node *tree = new Node(8);
-  tree->addChild((new Node("ffsdfsd"))
-                 ->addChild(new Node(15))
-                 );
-  tree->addChild( (new Node(17.9f))
-                  ->addChild(new Node(19.2f)) );
-  tree->addChild(new Node("rtrt"));
-  tree->addChild(new Node(1.4f));
+  ParametrParser args(argc, argv);
+  Node *tree = nullptr;
 
-//  tree->print();
+  args.setShortOption("i", [&](std::string path){
+    tree = Serializer::deserialize( path.c_str() );
+  });
+  args.setShortOption("o", [&](std::string path){
 
-  auto j = json::parse( tree->jsonify() );
+    if(tree == nullptr){
+      std::cerr << " nothing to serialize !" << std::endl;
+      return 1;
+    }
+    Serializer::serialize( tree, path.c_str() );
+  });
 
-  std::cout << j.dump(2) << std::endl;
+  try{
+    args.exec();
+  }catch(ParametrParser::UnknownOption e){
+    std::cerr << "Unknown option: " << e.optionName << std::endl;
+  }
 
-
+  tree->print();
   return 0;
 }
